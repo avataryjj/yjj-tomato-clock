@@ -1,0 +1,144 @@
+/* ===== Reset & Base ===== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-text-size-adjust:100%;text-size-adjust:100%;touch-action:manipulation}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:#faf3e8;
+  color:#3d2c1e;
+  min-height:100dvh;
+  display:flex;
+  justify-content:center;
+  padding:1rem 0.75rem;
+  line-height:1.5;
+  touch-action:manipulation
+}
+#app{width:100%;max-width:400px}
+/* ===== Header ===== */
+.app-header{text-align:center;padding:0.75rem 0 0.5rem}
+.app-header h1{font-size:1.35rem;font-weight:700;color:#3d2c1e;letter-spacing:0}
+/* ===== Timer ===== */
+.timer-section{display:flex;flex-direction:column;align-items:center;margin:1rem 0 1.25rem}
+.timer-ring{
+  position:relative;
+  width:200px;height:200px;
+  border-radius:50%;
+  background:conic-gradient(#d9534f 0deg 0deg,#e8ddd0 0deg 360deg);
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.3s
+}
+.timer-ring-inner{
+  width:176px;height:176px;
+  border-radius:50%;
+  background:#faf3e8;
+  display:flex;flex-direction:column;align-items:center;justify-content:center
+}
+.timer-display{font-size:2.5rem;font-weight:700;font-variant-numeric:tabular-nums;color:#3d2c1e;letter-spacing:0}
+.timer-status{font-size:0.8rem;color:#8a7a66;margin-top:0.15rem}
+/* ===== Timer Controls ===== */
+.timer-controls{display:flex;gap:0.6rem;margin-top:1rem}
+.timer-controls button{
+  min-width:5rem;padding:0.55rem 0;border:2px solid #d9534f;
+  border-radius:999px;background:transparent;color:#d9534f;
+  font-size:0.95rem;font-weight:600;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;transition:background 0.2s,color 0.2s
+}
+.timer-controls button:active{transform:scale(0.96)}
+.timer-controls button.primary{background:#d9534f;color:#fff}
+.timer-controls button.primary:hover{background:#c9302c;border-color:#c9302c}
+.timer-controls button:not(.primary):hover{background:#fceae8}
+.timer-controls button:disabled{opacity:0.4;cursor:not-allowed;transform:none}
+/* ===== Task Input ===== */
+.task-input-section{margin:1.25rem 0 0.75rem}
+.task-input-row{display:flex;gap:0.5rem}
+.task-input-row label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.task-input-row input[type="text"]{
+  flex:1;padding:0.6rem 0.75rem;border:2px solid #e0d4c4;border-radius:8px;
+  font-size:0.95rem;background:#fff;color:#3d2c1e;outline:none;transition:border-color 0.2s
+}
+.task-input-row input[type="text"]:focus{border-color:#d9534f}
+.task-input-row input[type="text"]::placeholder{color:#b0a090}
+.task-input-row button{
+  padding:0.6rem 1.1rem;border:none;border-radius:8px;
+  background:#d9534f;color:#fff;font-size:0.95rem;font-weight:600;
+  cursor:pointer;transition:background 0.2s;-webkit-tap-highlight-color:transparent
+}
+.task-input-row button:hover{background:#c9302c}
+.task-input-row button:active{transform:scale(0.96)}
+/* ===== Task List ===== */
+.task-list-section{display:flex;flex-direction:column;gap:0.35rem}
+.task-list-section h2{font-size:0.9rem;font-weight:600;color:#8a7a66;text-transform:uppercase;letter-spacing:0.04em;margin:0.25rem 0 0.15rem}
+.task-item{
+  display:flex;align-items:center;gap:0.6rem;
+  padding:0.6rem 0.75rem;border-radius:8px;background:#fff;
+  box-shadow:0 1px 3px rgba(0,0,0,0.05);transition:background 0.2s
+}
+.task-item:hover{background:#fcf9f5}
+.task-item label{flex:1;cursor:pointer;word-break:break-word;font-size:0.95rem}
+.task-item input[type="checkbox"]{
+  width:1.15rem;height:1.15rem;accent-color:#d9534f;cursor:pointer;flex-shrink:0
+}
+.task-item .task-label{display:flex;align-items:center;gap:0.6rem;flex:1;cursor:pointer}
+.task-item .task-label span{flex:1;word-break:break-word;font-size:0.95rem;transition:text-decoration 0.15s,color 0.15s}
+.task-item input[type="checkbox"]:checked~.task-label span{text-decoration:line-through;color:#b0a090}
+.task-delete-btn{
+  background:none;border:none;color:#c0b0a0;font-size:1.1rem;cursor:pointer;
+  padding:0.15rem 0.3rem;border-radius:4px;transition:color 0.15s,background 0.15s;
+  -webkit-tap-highlight-color:transparent;line-height:1
+}
+.task-delete-btn:hover{color:#d9534f;background:#fceae8}
+/* ===== Empty state ===== */
+.empty-tasks{text-align:center;color:#b0a090;font-size:0.9rem;padding:1.5rem 0}
+/* ===== PWA splash / offline ===== */
+@media(display-mode:standalone),(display-mode:minimal-ui){
+  body{padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0)}
+}
+.timer-section{display:flex;flex-direction:column;align-items:center;margin:1rem 0 1.25rem}
+.timer-section[data-state="running"] .timer-ring{box-shadow:0 0 0 3px rgba(217,83,79,0.15)}
+.timer-section[data-state="paused"] .timer-ring{opacity:0.85}
+.timer-section[data-mode="break"] .timer-ring-inner{background:#f0f7ec}
+.timer-section[data-mode="break"] .timer-display{color:#5a8a4a}
+.timer-section[data-mode="break"] .timer-status{color:#7a9a6a}
+.task-delete-btn:active{transform:scale(0.9)}
+.task-list-header{display:flex;justify-content:space-between;align-items:baseline;margin:0.25rem 0 0.15rem}
+.task-list-header h2{font-size:0.9rem;font-weight:600;color:#8a7a66;text-transform:uppercase;letter-spacing:0.04em;margin:0}
+.task-stats{font-size:0.8rem;color:#b0a090}
+.task-footer{display:flex;justify-content:space-between;align-items:center;padding:0.4rem 0 0}
+.task-summary{font-size:0.8rem;color:#b0a090}
+.task-clear-btn{font-size:0.78rem;color:#c0b0a0;background:none;border:none;cursor:pointer;padding:0.2rem 0.4rem;border-radius:4px;transition:color 0.15s}
+.task-clear-btn:hover{color:#d9534f}
+.task-clear-btn:active{transform:scale(0.96)}
+/* ===== Daily Count ===== */
+.daily-count{text-align:center;font-size:1rem;font-weight:600;color:#d9534f;margin:0.5rem 0 0;min-height:1.5rem}
+/* ===== Install Button ===== */
+#btnInstall{
+  position:fixed;
+  bottom:calc(1.5rem + env(safe-area-inset-bottom,0));
+  left:50%;
+  transform:translateX(-50%);
+  z-index:100;
+  padding:0.7rem 1.5rem;
+  border:none;
+  border-radius:999px;
+  background:#d9534f;
+  color:#fff;
+  font-size:1rem;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(217,83,79,0.35);
+  -webkit-tap-highlight-color:transparent;
+  white-space:nowrap;
+  transition:transform 0.2s,box-shadow 0.2s
+}
+#btnInstall:hover{box-shadow:0 6px 20px rgba(217,83,79,0.45)}
+#btnInstall:active{transform:translateX(-50%) scale(0.96)}
+/* ===== Notification Guide ===== */
+.notif-guide{text-align:center;margin:-0.5rem 0 0.75rem;min-height:1.4rem}
+.notif-guide button{font-size:0.82rem;color:#8a7a66;background:none;border:1px dashed #c0b0a0;border-radius:999px;padding:0.25rem 0.75rem;cursor:pointer;transition:color 0.15s,border-color 0.15s;-webkit-tap-highlight-color:transparent}
+.notif-guide button:hover{color:#d9534f;border-color:#d9534f}
+.notif-guide button:active{transform:scale(0.96)}
+/* ===== Timer Pulse Animation ===== */
+@keyframes ringPulse{0%,100%{box-shadow:0 0 0 0 rgba(217,83,79,0.2)}50%{box-shadow:0 0 0 8px rgba(217,83,79,0.08)}}
+.timer-section[data-state="running"] .timer-ring{animation:ringPulse 2s ease-in-out infinite}
+.timer-section[data-state="running"] .timer-ring-inner{transition:opacity 0.3s}
+/* ===== touch-action on interactive elements ===== */
+button,input[type="text"],input[type="checkbox"]{touch-action:manipulation}

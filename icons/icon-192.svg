@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="192" y2="192" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#d9534f"/>
+      <stop offset="1" stop-color="#c9302c"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="32" fill="url(#bg)"/>
+  <g transform="translate(96,100)">
+    <ellipse cx="0" cy="-2" rx="44" ry="48" fill="#e74a3b"/>
+    <path d="M-22,-38 Q-26,-56 0,-62 Q26,-56 22,-38" fill="#4caf50" transform="rotate(-5)"/>
+    <ellipse cx="-16" cy="-12" rx="5" ry="3" fill="#f5f5dc" opacity="0.4"/>
+    <rect x="-2" y="-60" width="4" height="14" rx="2" fill="#5d4037"/>
+    <path d="M-28,-36 Q-32,-22 -26,-10" stroke="#d4a84b" stroke-width="2.5" fill="none" stroke-linecap="round" transform="rotate(10)"/>
+    <path d="M28,-36 Q32,-22 26,-10" stroke="#d4a84b" stroke-width="2.5" fill="none" stroke-linecap="round" transform="rotate(-10)"/>
+  </g>
+  <text x="96" y="150" font-family="sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">🍅</text>
+</svg>

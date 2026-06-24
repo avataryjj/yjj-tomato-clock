@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+  <meta name="theme-color" content="#d9534f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="番茄钟">
+  <title>🍅 番茄钟 + 任务板</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23d9534f'/%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white'%3E🍅%3C/text%3E%3C/svg%3E">
+</head>
+<body>
+  <div id="app">
+    <header class="app-header" role="banner">
+      <h1>🍅 番茄钟 + 任务板</h1>
+    </header>
+    <main>
+      <!-- Timer -->
+      <section class="timer-section" aria-label="番茄计时器">
+        <div class="timer-ring" role="timer" aria-live="polite" aria-atomic="true" aria-label="倒计时">
+          <div class="timer-ring-inner">
+            <span class="timer-display" id="timerDisplay">25:00</span>
+            <span class="timer-status" id="timerStatus">专注中</span>
+          </div>
+        </div>
+        <div class="timer-controls">
+          <button type="button" id="btnStart" class="primary" aria-label="开始专注计时">开始</button>
+          <button type="button" id="btnPause" disabled aria-label="暂停计时">暂停</button>
+          <button type="button" id="btnReset" aria-label="重置计时">重置</button>
+        </div>
+        <div class="daily-count" id="dailyCount" aria-live="polite"></div>
+      </section>
+      <div class="notif-guide" id="notifGuide" style="display:none">
+        <button type="button" id="btnEnableNotif" aria-label="开启桌面通知">🔔 开启通知</button>
+      </div>
+      <!-- Task Input -->
+      <section class="task-input-section" aria-label="添加任务">
+        <div class="task-input-row">
+          <label for="taskInput">新任务</label>
+          <input type="text" id="taskInput" placeholder="添加今日任务 …" autocomplete="off">
+          <button type="button" id="btnAddTask" aria-label="添加任务">添加</button>
+        </div>
+      </section>
+      <!-- Task List -->
+      <section class="task-list-section" aria-label="任务列表">
+        <header class="task-list-header">
+          <h2>今日任务</h2>
+          <span class="task-stats" id="taskStats" aria-live="polite"></span>
+        </header>
+        <ul id="taskList" role="list" aria-live="polite"></ul>
+        <div class="task-footer" id="taskFooter">
+          <span class="task-summary" id="taskSummary"></span>
+          <button type="button" class="task-clear-btn" id="btnClearCompleted">清除已完成</button>
+        </div>
+      </section>
+    </main>
+    <button type="button" id="btnInstall" style="display:none" aria-label="安装应用">📲 安装应用</button>
+  </div>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
