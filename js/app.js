@@ -32,6 +32,7 @@ const dailyCount = $('dailyCount');
 const btnInstall = $('btnInstall');
 const notifGuide = $('notifGuide');
 const btnEnableNotif = $('btnEnableNotif');
+const pwaStatus = $('pwaStatus');
 /* ===== Format ===== */
 function formatTime(sec) {
   const m = Math.floor(sec / 60);
@@ -316,12 +317,20 @@ window.addEventListener('pagehide', saveTimerState);
 
 /* ===== 安装 PWA ===== */
 let deferredPrompt = null;
+let swRegistered = false;
 
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
   btnInstall.style.display = '';
+  setPwaStatus('PWA 安装可用 ✅', 'ok');
 });
+
+function setPwaStatus(msg, cls) {
+  if (!pwaStatus) return;
+  pwaStatus.textContent = msg;
+  pwaStatus.className = 'pwa-status' + (cls ? ' ' + cls : '');
+}
 
 btnInstall.addEventListener('click', async () => {
   if (!deferredPrompt) return;
@@ -329,6 +338,7 @@ btnInstall.addEventListener('click', async () => {
   const result = await deferredPrompt.userChoice;
   if (result.outcome === 'accepted') {
     btnInstall.style.display = 'none';
+    setPwaStatus('已安装 ✅', 'ok');
   }
   deferredPrompt = null;
 });
@@ -336,6 +346,7 @@ btnInstall.addEventListener('click', async () => {
 window.addEventListener('appinstalled', () => {
   btnInstall.style.display = 'none';
   deferredPrompt = null;
+  setPwaStatus('已安装 ✅', 'ok');
 });
 
 /* ===== Init ===== */
@@ -346,8 +357,29 @@ updateDailyCountDisplay();
 updateNotifGuide();
 
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js').catch(() => {});
+  navigator.serviceWorker.register('sw.js').then(reg => {
+    swRegistered = true;
+    setPwaStatus('Service Worker 已激活', 'ok');
+    reg.addEventListener('updatefound', () => {
+      const sw = reg.installing || reg.waiting;
+      if (sw) sw.addEventListener('statechange', () => {
+        if (sw.state === 'activated') setPwaStatus('Service Worker 已激活', 'ok');
+      });
+    });
+  }).catch(err => {
+    setPwaStatus('SW 注册失败: ' + (err.message||'未知错误'), 'error');
+  });
+} else {
+  setPwaStatus('浏览器不支持 SW', 'error');
 }
+
+setTimeout(() => {
+  if (!deferredPrompt && swRegistered) {
+    setPwaStatus('等待 PWA 安装条件…… 请多访问几次页面', 'warn');
+  } else if (!swRegistered && !('serviceWorker' in navigator)) {
+    // already showed error
+  }
+}, 5000);
 /* ===== 通知引导 ===== */
 function updateNotifGuide() {
   if (!('Notification' in window) || !notifGuide) return;
@@ -368,4 +400,3 @@ async function requestNotificationPermission() {
 if (btnEnableNotif) {
   btnEnableNotif.addEventListener('click', requestNotificationPermission);
 }
-
